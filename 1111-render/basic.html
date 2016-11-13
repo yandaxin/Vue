@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>render函数的初体验</title>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript">
+	window.onload=function(){
+
+		Vue.component('anchored-heading', {
+		  render: function (createElement) {
+		    return createElement(
+		      'h' + this.level,   // tag name 标签名称
+		      this.$slots.default // 子组件中的阵列
+		    )
+		  },
+		  props: {
+		    level: {
+		      type: Number,
+		      required: true
+		    }
+		  }
+		})
+
+		var demo=new Vue({
+			el:'#demo'
+		})
+	}
+	</script>
+</head>
+<body>
+	<div id="demo">
+		<anchored-heading :level="2">Hello world!</anchored-heading>
+	</div>
+	
+</body>
+</html>

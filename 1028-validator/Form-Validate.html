@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表单验证</title>
+	<script src="vue.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	
+		window.onload=function(){
+
+			Vue.component("item",{
+				template:"#item-template",
+				props:{
+					show1:Boolean,
+					show2:Boolean,
+					show3:Boolean
+				},
+				methods:{
+
+					isNum:function(num){
+
+						//alert(num);
+						var reg=new RegExp("^[0-9]*$");
+						if(!reg.test(num))
+						{
+							this.show1=true;
+						}
+						else
+						{
+							this.show1=false;
+						}
+					},
+					isTel:function(tel){
+
+						if(tel){
+						 if(!(/^1[34578]\d{9}$/.test(tel))){
+					            this.show2 = true;
+					        }else{
+					            this.show2 = false;
+					        }     
+					      }else{
+					        this.show2 = false;
+					      }
+
+					},
+					isEmail:function(email){
+
+						var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+
+						if(email){
+					        if(re.test(email))
+					        {
+					            this.show3 = false;
+					        }
+					        else
+					        {
+					            this.show3 = true;
+					        }        
+				      	}
+				      	else
+				      	{
+				        	this.show3 = false;
+				      	}
+					}
+				}
+
+			});
+
+			var demo=new Vue({
+
+				el:"#app",
+				data:
+				{
+					showN:false,
+					showT:false,
+					showE:false
+				}
+				
+			});
+
+		}
+	</script>
+	<style type="text/css">
+		span{
+			color: red;
+			font-style: bold;
+		}
+		.InputError{
+			border-color: red;
+			border-width: 2px;
+		}
+		.InputRight
+		{
+			border-color: green;
+			border-width: 2px;
+		}
+
+
+	</style>
+	<script type="text/x-template" id="item-template">
+
+		<form name="myform">
+			<fieldset>
+				<legend>验证提示例子</legend>
+				<p>
+					<label for="number">请输入数字：</label>
+					<input type="text" name="number" v-model="num" @keyup="isNum(num)" 
+					v-bind:class="{InputError:show1,InputRight:!show1}"/>
+					<span v-show="show1">只能输入数字！</span>
+				</p>
+				<p>
+					<label for="tel">请输入11位电话号码：</label>
+					<input type="text" name="tel" v-model="tel" @change="isTel(tel)" @keyup="isTel(tel)"
+					v-bind:class="{InputError:show2,InputRight:!show2}"/>
+					<span v-show="show2">电话格式不对！</span>
+				</p>
+
+				<p>
+					<label for="pwd">请输入邮箱：</label>
+					<input type="text" v-model="email" @change="isEmail(email)" @keyup="isEmail(email)"
+					v-bind:class="{InputError:show3,InputRight:!show3}"/>
+					<span v-show="show3">邮箱格式错误！</span>
+				</p>
+			</fieldset>
+		</form>
+
+	</script>
+</head>
+
+<body>
+
+	<div id="app">
+		<item v-bind:show1="showN" v-bind:show2="showT" v-bind:show3="showE">
+			
+		</item>
+	</div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>colorjs使用</title>
+	<script type="text/javascript" src="vue.js"></script>
+	<script src="https://unpkg.com/tween.js@16.3.4"></script>
+	<script src="https://unpkg.com/color-js@1.0.3/color.js"></script>
+	<script type="text/javascript">
+	window.onload=function(){
+		var Color = net.brehaut.Color
+		new Vue({
+		  el: '#example-7',
+		  data: {
+		    colorQuery: '',
+		    color: {
+		      red: 0,
+		      green: 0,
+		      blue: 0,
+		      alpha: 1
+		    },
+		    tweenedColor: {}
+		  },
+		  created: function () {
+		    this.tweenedColor = Object.assign({}, this.color)//Object.assign() 方法可以把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象。
+		  },
+		  watch: {
+
+		  	//color 在updateColor被修改，watch被触发
+		    color: function () {
+		      function animate (time) {
+		        requestAnimationFrame(animate)
+		        TWEEN.update(time)
+		      }
+		      //this.tweenedColor的值变成color的值，以一个动画的形式
+		      new TWEEN.Tween(this.tweenedColor)
+		        .to(this.color, 750)
+		        .start()
+		      animate()
+		    }
+		  },
+
+		  computed: {
+		  	//转换为HTML可识别的css颜色类型，并返回
+		    tweenedCSSColor: function () {
+		      return new Color({
+		        red: this.tweenedColor.red,
+		        green: this.tweenedColor.green,
+		        blue: this.tweenedColor.blue,
+		        alpha: this.tweenedColor.alpha
+		      }).toCSS()
+		    }
+		  },
+		  methods: {//回车或者点击button会触发updateColor方法
+		    updateColor: function () {
+		    //将color设置成输入框获取的值 colorQuery，然后清空输入框的值
+		      this.color = new Color(this.colorQuery).toRGB()
+		      this.colorQuery = ''
+		    }
+		  }
+		})
+
+	}
+	</script>
+	<style type="text/css">
+	.example-7-color-preview {
+		  display: inline-block;
+		  width: 50px;
+		  height: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="example-7">
+	  <input
+	    v-model="colorQuery"
+	    v-on:keyup.enter="updateColor"
+	    placeholder="Enter a color"
+	  >
+
+	  <button v-on:click="updateColor">Update</button>
+
+	  <p>Preview:</p>
+	  <span
+	    v-bind:style="{ backgroundColor: tweenedCSSColor }"
+	    class="example-7-color-preview"
+	  ></span>
+
+	  <p>{{ tweenedCSSColor }}</p>
+</div>
+</body>
+</html>

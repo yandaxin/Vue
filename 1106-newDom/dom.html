@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Dom更新</title>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript">
+	window.onload=function(){
+
+		Vue.component('example', {
+		  template: '<span v-on:click="updateMessage">{{ message }}</span>',
+		  data: function () {
+		    return {
+		      message: 'not updated'
+		    }
+		  },
+		  methods: {
+		    updateMessage: function () {
+		      this.message = 'updated'
+		      console.log(this.$el.textContent) 
+		      // => 'not updated' 说明dom内容的更新是慢半拍的，显示已经同步成updated了
+
+		      this.$nextTick(function () {//使用了这个函数之后，dom的内容也立马更新了
+		        console.log(this.$el.textContent) // => 'updated'
+		      })
+		    }
+		  }
+		})
+
+		var demo=new Vue({
+		el:'#demo'
+	})
+	
+
+	}
+
+	</script>
+</head>
+<body>
+	<div id="demo">
+		<example></example>
+	</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>指令参数Demo</title>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript">
+	window.onload=function(){
+		Vue.directive('demo', {
+		  bind: function (el, binding, vnode) {
+		    var s = JSON.stringify
+		    el.innerHTML =
+		      'name: '       + s(binding.name) + '<br>' +
+		      'value: '      + s(binding.value) + '<br>' +
+		      'expression: ' + s(binding.expression) + '<br>' +
+		      'argument: '   + s(binding.arg) + '<br>' +
+		      'modifiers: '  + s(binding.modifiers) + '<br>' +
+		      'vnode keys: ' + Object.keys(vnode).join(', ')
+		  }
+		})
+		new Vue({
+		  el: '#hook-arguments-example',
+		  data: {
+		    message: 'hello!'
+		  }
+		})
+	}
+	</script>
+</head>
+<body>
+	<div id="hook-arguments-example" v-demo:hello.a.b="message"></div>
+</body>
+</html>

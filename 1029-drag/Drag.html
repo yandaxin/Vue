@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽实现</title>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript" src="drag.js"></script>
+
+	<style>
+		.album
+		{
+			border: 3px dashed #ccc;
+			float: left;
+			margin: 10px;
+			min-height: 100px;
+			padding: 10px;
+			width: 220px;
+		}
+	</style>
+
+</head>
+<body>
+
+<div id="info">
+	<h2>温馨提示：可将照片直接拖到垃圾箱中</h2>
+	<h2>注意：拖拽第二张照片时 鼠标不要放第一张照片区域</h2>
+</div>
+
+<div id="content">
+
+	<div id="album" class="album">
+	<h2>相册</h2>
+	<img draggable="true" id="img1" src="hsq.jpg" @drop="handleDrop($event)"
+		  @drag="handleDrag($event)" />
+
+	<img draggable="true" id="img2" src="smy.jpg" @drop="handleDrop($event)"
+		  @drag="handleDrag($event)" />
+</div>
+
+<div id="trash" class="album"  @drop="handleDrop($event)" @dragover='allowDrop($event)' >
+	<h2>垃圾箱</h2>
+</div>
+	
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="vue.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+
+<script type="text/x-template" id="item-template">
+  <li>
+    <div
+      :class="{bold: isFolder}"
+      @click="toggle"
+      @dblclick="changeType">
+      {{model.name}}
+      <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+    </div>
+    <ul v-show="open" v-if="isFolder">
+      <item
+        class="item"
+        v-for="model in model.children"
+        :model="model">
+      </item>
+      <li class="add" @click="addChild">+</li>
+      <li class="add" v-on:click="deleteChild">-</li>
+      <li>
+          <input placeholder="要替换的序号" v-model="index">
+          <input placeholder="要替换的序内容" v-model="value">
+          <input type="button" value="替换" 
+            v-on:click="changeValue(index,value)">
+      </li>
+      <li>                          
+          <input placeholder="要复制添加的节点" v-model="num">
+          <input type="button" value="复制" 
+              v-on:click="copy(num)">
+      </li>
+      <li>                          
+          <input placeholder="移动的第一个元素" v-model="num1">
+          <input placeholder="移动的第二个元素" v-model="num2">
+          <input type="button" value="移动"
+              v-on:click="exchange(num1,num2)">
+      </li>
+    </ul>
+  </li>
+</script>
+
+<p>(You can double click on an item to turn it into a folder.)</p>
+
+<!-- the demo root element -->
+<ul id="demo">
+  <item
+    class="item"
+    :model="treeData">
+  </item>
+</ul>
+
+</body>
+</html>

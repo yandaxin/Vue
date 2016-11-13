@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表单验证2</title>
+	<script src="vue.js" type="text/javascript"></script>
+	<script src="validator.common.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	window.onload=function(){
+
+		new Vue({
+        el: '#valueAddedOnline',
+        data:{
+            items: $json_data
+        },
+        validators:{
+            price: function(val)
+            {
+                return /^[\d]{1,8}\.?[\d]{0,2}\$/.test(val);
+            }
+        },
+        methods: {
+            getField: function (id){
+                return 'item'+id;
+            },
+            onSubmit: function (e) {
+                this.\$validate(true);
+                if (this.\$validation.invalid) {
+                    e.preventDefault();
+                }
+            }
+        }
+    });
+	}
+	</script>
+</head>
+<body>
+
+	<div id="valueAddedOnline" class="grid-view box">
+  <validator name="validation">
+    <form class="" method="post" novalidate @submit="onSubmit">
+        ……
+            <tr v-for="item in items | filterBy true in 'checked'">
+                            <td></td>
+                            <td v-text="item.city_name"></td>
+                            <td>
+                                <input type="text"
+                                :field="getField(item.id)"
+                                v-validate="['price']"
+                                v-model="item.operation_shop_district_goods_price">
+                                <span>元/</span>
+                                <span v-text="item.operation_spec_strategy_unit"></span>
+                                <p style="color:red" v-if="$validation[getField(item.id)].touched && $validation[getField(item.id)].price">价格不能为空，且整数不超过8位，小数不超过2位</p>
+                            </td>
+                            <td>
+                                <input type="text" 
+                                :field="'market_prict'+item.id"
+                                v-validate="['price']"
+                                v-model="item.operation_shop_district_goods_market_price">
+                                <span>元/</span>
+                                <span v-text="item.operation_spec_strategy_unit"></span>
+                                <p style="color:red" v-if="$validation['market_prict'+item.id].touched && $validation['market_prict'+item.id].price">价格整数部分不能超过8位，小数不能超过2位</p>
+                            </td>
+                        </tr>
+            ……
+    </form>
+  </validator>
+</div>
+	
+</body>
+</html>

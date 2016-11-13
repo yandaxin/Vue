@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表单验证</title>
+	<script src="vue.js" type="text/javascript"></script>
+  <script src="validator.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+	
+	window.onload=function(){
+
+	 new Vue({
+        el: '#app',
+        data: {
+            rules: {
+                required: true,
+                minlength: 3,
+                maxlength: 16
+            }
+        }
+    });
+
+}
+
+   
+    
+</script>
+</head>
+<body>
+	<div id="app">
+  <validator name="validation">
+    <form novalidate>
+        ID: <input type="text" v-validate:id="rules" /><br />
+      <div v-show="$validation.id.touched">
+          <p v-if="$validation.id.required">不能为空</p>
+          <p v-if="$validation.id.minlength">你的ID太短</p>
+          <p v-if="$validation.id.maxlength">你的ID太长</p>
+      </div>
+    </form>
+  </validator>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <script src="vue.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+<!-- 表单模板 -->
+<script type="text/x-template" id="item-template">
+<form>
+<div>
+	<label>学号</label>
+	<input v-model="num" v-on:keyup="isNum(num)" v-bind:class="{inputchage:show1}">
+	<span v-show="show1">你家学号有字母啊，纯数字啊大哥</span>
+</div>
+<div>
+	<label>手机号</label>
+	<input v-model="tel" v-on:change="isTel(tel)" v-bind:class="{inputchage:show2}">
+	<span v-show="show2">手机号格式都能输错误，服了你...</span>
+</div>
+<div>
+	<label>邮箱</label>
+	<input v-model="email" v-on:change="isEmail(email)" v-bind:class="{inputchage:show3}">
+	<span v-show="show3">认真点好不好，输错要坏大事的！！！</span>
+</div>
+</form>
+
+</script>
+
+<div id="demo">
+<item v-bind:show1="showN" v-bind:show2="showT" v-bind:show3="showE">
+	
+</item>
+	
+</div>
+
+</body>
+</html>
